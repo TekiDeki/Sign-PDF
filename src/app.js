@@ -603,7 +603,6 @@
       return;
     }
     setSignature(result.url, result.aspect, "signature");
-    toast(t("sigReady"));
   }
 
   function useTyped() {
@@ -634,7 +633,6 @@
       return;
     }
     setSignature(result.url, result.aspect, "signature");
-    toast(t("sigReady"));
   }
 
   function readImage(file) {
@@ -688,7 +686,6 @@
       return;
     }
     setSignature(result.url, result.aspect, "signature");
-    toast(t("sigReady"));
   }
 
   function addDate() {
