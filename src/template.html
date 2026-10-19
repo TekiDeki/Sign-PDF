@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="docTitle">Sign PDF - sign a PDF in your browser</title>
+<meta name="description" content="Put your signature on a PDF in the browser. Nothing is uploaded, no account, works offline.">
+<meta name="theme-color" content="#0a1d23">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://freehtml.dev" aria-label="TekiDeki">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect x="1.5" y="1.5" width="29" height="29" rx="8" fill="#0f6674"/>
+      <path d="M10 6h8l5 5v14a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 9 25V7.5A1.5 1.5 0 0 1 10.5 6z" fill="#f4efe4"/>
+      <path d="M18 6l5 5h-4a1 1 0 0 1-1-1z" fill="#e3a548"/>
+      <path d="M11.5 18.5c1.3-2.4 2.4-3.4 3.2-2.9.9.5-.2 3.4.8 3.9 1 .5 2-1.6 3-2.4" fill="none" stroke="#0a1d23" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">Sign PDF</span>
+  </a>
+  <div class="lang">
+    <label for="langSelect" data-i18n="langLabel">Language</label>
+    <select id="langSelect" aria-label="Language">
+      <option value="en">English</option>
+      <option value="ro">Română</option>
+      <option value="sr-latn">Srpski</option>
+      <option value="sr-cyrl">Српски</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="tagline" data-i18n="tagline">A signature, in the right place. Nothing leaves this tab.</p>
+    <h1 data-i18n="h1">Sign the PDF without sending it anywhere.</h1>
+    <p class="lede" data-i18n="lede">Open the document, put your signature where it belongs, and download the file. The pages are read here, in this tab.</p>
+    <ul class="claims">
+      <li data-i18n="claim1">No upload</li>
+      <li data-i18n="claim2">No account</li>
+      <li data-i18n="claim3">Works offline</li>
+      <li data-i18n="claim4">Free</li>
+    </ul>
+  </section>
+
+  <section class="workspace">
+    <div class="doc">
+      <div id="drop" class="drop" tabindex="0" role="button" aria-describedby="dropHint">
+        <svg viewBox="0 0 48 48" aria-hidden="true" class="drop-icon">
+          <path d="M24 32V12m0 0l-7 7m7-7l7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 30v5a3 3 0 0 0 3 3h24a3 3 0 0 0 3-3v-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+        </svg>
+        <strong data-i18n="dropTitle">Drop a PDF here</strong>
+        <span id="dropHint" data-i18n="dropHint">or choose it from your device.</span>
+        <button type="button" id="chooseBtn" class="btn ghost" data-i18n="choose">Choose a PDF</button>
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+      </div>
+
+      <div id="docBar" class="doc-bar" hidden>
+        <div class="doc-facts">
+          <strong id="docName" class="doc-name"></strong>
+          <span id="docMeta" class="doc-meta"></span>
+        </div>
+        <button type="button" id="replaceBtn" class="btn ghost small" data-i18n="replace">Another PDF</button>
+      </div>
+
+      <p id="pagesEmpty" class="empty" data-i18n="pagesEmpty">Open a PDF and its pages appear here.</p>
+      <div id="pageList" class="pages"></div>
+      <p id="pagesCap" class="hint" hidden></p>
+    </div>
+
+    <aside class="panel" id="panel">
+      <h2 class="panel-title" data-i18n="panelTitle">Your signature</h2>
+
+      <div class="tabs" role="tablist">
+        <button type="button" id="tabDraw" class="tab is-on" role="tab" aria-selected="true" aria-controls="panelDraw" data-i18n="tabDraw">Draw</button>
+        <button type="button" id="tabType" class="tab" role="tab" aria-selected="false" aria-controls="panelType" data-i18n="tabType">Type</button>
+        <button type="button" id="tabUpload" class="tab" role="tab" aria-selected="false" aria-controls="panelUpload" data-i18n="tabUpload">Upload</button>
+      </div>
+
+      <div id="panelDraw" class="panel-body" role="tabpanel" aria-labelledby="tabDraw">
+        <canvas id="drawCanvas" class="pad" height="720" aria-label="Signature drawing area"></canvas>
+        <p class="hint" data-i18n="drawHint">Draw with the mouse, the trackpad or a finger.</p>
+        <div class="row">
+          <label class="field ink">
+            <span data-i18n="inkLabel">Ink</span>
+            <select id="inkSelect">
+              <option value="#101820" data-i18n="inkBlack">Black</option>
+              <option value="#12327a" data-i18n="inkBlue">Blue</option>
+              <option value="#8a1f2b" data-i18n="inkRed">Red</option>
+            </select>
+          </label>
+          <button type="button" id="drawUndo" class="btn ghost small" data-i18n="drawUndo">Undo stroke</button>
+          <button type="button" id="drawClear" class="btn ghost small" data-i18n="drawClear">Clear</button>
+        </div>
+        <button type="button" id="drawUse" class="btn primary wide" data-i18n="useSignature">Use this signature</button>
+      </div>
+
+      <div id="panelType" class="panel-body" role="tabpanel" aria-labelledby="tabType" hidden>
+        <label class="field">
+          <span data-i18n="typeLabel">Name</span>
+          <input type="text" id="typeInput" autocomplete="name" spellcheck="false" data-i18n-placeholder="typePlaceholder" placeholder="Your name">
+        </label>
+        <label class="field">
+          <span data-i18n="typeFont">Style</span>
+          <select id="typeFont">
+            <option value="script" data-i18n="fontScript">Script</option>
+            <option value="serif" data-i18n="fontSerif">Serif</option>
+          </select>
+        </label>
+        <button type="button" id="typeUse" class="btn primary wide" data-i18n="useSignature">Use this signature</button>
+      </div>
+
+      <div id="panelUpload" class="panel-body" role="tabpanel" aria-labelledby="tabUpload" hidden>
+        <label class="field">
+          <span data-i18n="uploadLabel">Picture of your signature</span>
+          <input type="file" id="uploadInput" accept="image/png,image/jpeg">
+        </label>
+        <label class="check">
+          <input type="checkbox" id="whiteToggle" checked>
+          <span data-i18n="whiteLabel">Make the white background transparent</span>
+        </label>
+        <p class="hint" data-i18n="uploadHint">PNG or JPG, on paper or on screen.</p>
+      </div>
+
+      <div class="sig-box">
+        <img id="sigPreview" alt="" hidden>
+        <span id="sigEmpty" data-i18n="sigEmpty">No signature yet.</span>
+      </div>
+      <p id="pendingHint" class="pending" role="status" aria-live="polite"></p>
+      <p class="hint" data-i18n="selectedHint">Drag to move. Pull a corner to resize.</p>
+
+      <div class="row">
+        <button type="button" id="dateBtn" class="btn ghost small" data-i18n="dateBtn">Add today's date</button>
+        <button type="button" id="deleteBtn" class="btn ghost small danger" data-i18n="deleteSelected" hidden>Delete</button>
+      </div>
+    </aside>
+  </section>
+
+  <section class="actions">
+    <label class="field name">
+      <span data-i18n="outLabel">File name</span>
+      <div class="name-row">
+        <input type="text" id="outName" value="signed" spellcheck="false" autocomplete="off">
+        <span class="ext">.pdf</span>
+      </div>
+    </label>
+    <button type="button" id="exportBtn" class="btn primary" data-i18n="exportBtn">Download the signed PDF</button>
+    <div class="row actions-side">
+      <button type="button" id="undoBtn" class="btn ghost small" data-i18n="undo">Undo</button>
+      <button type="button" id="clearBtn" class="btn ghost small danger" data-i18n="clearAll">Remove all</button>
+    </div>
+  </section>
+
+  <p id="toast" class="toast" role="status" aria-live="polite"></p>
+
+  <section class="notes">
+    <article>
+      <h3 data-i18n="privacyTitle">Nothing leaves this device</h3>
+      <p data-i18n="privacyBody">The pages are read in this tab. There is no server, no upload and no account. The signature stays in this browser, and the document is gone when you close the tab.</p>
+    </article>
+    <article>
+      <h3 data-i18n="limitsTitle">What it does not do</h3>
+      <ul class="limits">
+        <li data-i18n="limit1">No sending documents to other people to sign.</li>
+        <li data-i18n="limit2">No certificate based digital signature. This is a simple electronic signature, drawn into the page.</li>
+        <li data-i18n="limit3">No editing of the text that is already in the PDF.</li>
+      </ul>
+    </article>
+  </section>
+</main>
+
+<footer class="foot">
+  <span data-i18n="footer">A TekiDeki tool. Free, no account, no tracking.</span>
+  <span class="foot-links">
+    <a href="https://freehtml.dev">freehtml.dev</a>
+    <a href="https://github.com/TekiDeki/Sign-PDF">source</a>
+    <a href="https://paypal.me/TekiDeki">support</a>
+  </span>
+</footer>
+
+<script src="vendor/pdf-lib.min.js"></script>
+<script src="vendor/pdf.min.js"></script>
+<script id="pdfWorkerSource" type="text/plain"></script>
+<script src="engine.js"></script>
+<script src="i18n/locales.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

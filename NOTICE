@@ -1,0 +1,46 @@
+Sign PDF
+Copyright 2026 Kristian Mario Miskovic (TekiDeki)
+https://github.com/TekiDeki/Sign-PDF
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------
+Third-party software
+--------------------------------------------------------------------------
+
+PDF.js 3.11.174 (pdf.min.js, pdf.worker.min.js)
+Copyright 2012 Mozilla Foundation
+Licensed under the Apache License, Version 2.0.
+Unmodified minified builds from the pdfjs-dist package, served from this
+repository and inlined at build time. Used to draw the pages of the document
+on a canvas.
+
+pdf-lib 1.17.1 (pdf-lib.min.js)
+Copyright (c) 2019 Andrew Dillon
+Licensed under the MIT License.
+Unmodified minified build, inlined at build time. Used to write the signature
+into the pages and to save the finished file.
+
+No other library, framework, analytics, font file or network request is part
+of this project. The page loads nothing at runtime, not even a copy of
+anything from a CDN.
+
+--------------------------------------------------------------------------
+Fonts
+--------------------------------------------------------------------------
+
+No font file is shipped. The typed signature uses fonts that are already
+installed on the device, chosen by name with generic fallbacks, so the text
+is rendered by the browser's own text engine. If a device has none of the
+named faces, the browser falls back to a cursive or serif face it does have.
+
+--------------------------------------------------------------------------
+Documents
+--------------------------------------------------------------------------
+
+The documents opened in this tool remain on the device. Nothing is uploaded,
+collected or transmitted, and this project has no server component.
+
+The PDF fixtures in tests/fixtures were generated for this project, except
+encrypted.pdf and broken.pdf, which exist to test refusals and contain no
+real data.
