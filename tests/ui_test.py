@@ -107,6 +107,11 @@ def open_app(context, url):
 def upload(page, name: str):
     page.set_input_files("#fileInput", str(FIX / name))
     page.wait_for_function("document.querySelectorAll('#pageList .page').length > 0", timeout=20000)
+    # The header is filled at the end of the render pass, one page later than
+    # the first sheet appears, so the test waits for it instead of racing it.
+    page.wait_for_function(
+        "document.querySelector('#docMeta') && document.querySelector('#docMeta').textContent.trim().length > 0",
+        timeout=20000)
     page.wait_for_timeout(450)
 
 
@@ -285,6 +290,35 @@ def run(pw, label: str, options: dict):
                 overflow = page.evaluate(
                     "document.documentElement.scrollWidth - document.documentElement.clientWidth")
                 check(overflow <= 1, f"{label}: the page scrolls sideways by {overflow}px")
+
+            # 14. The theme button flips the page, remembers it, and keeps the
+            # document page white so the PDF still looks like the printed one.
+            page.evaluate("localStorage.removeItem('signpdf.theme')")
+            page.reload(wait_until="load")
+            page.wait_for_function("window.__signpdf")
+            upload(page, "form.pdf")
+            check(page.get_attribute("html", "data-theme") in ("light", "dark"),
+                  f"{label}: no theme attribute on load")
+            before_bg = page.evaluate("getComputedStyle(document.body).backgroundColor")
+            ink_light = page.evaluate("getComputedStyle(document.body).color")
+            page.click("#themeToggle")
+            page.wait_for_timeout(250)
+            after_bg = page.evaluate("getComputedStyle(document.body).backgroundColor")
+            check(page.get_attribute("html", "data-theme") == "dark", f"{label}: the toggle did not go dark")
+            check(before_bg != after_bg, f"{label}: the background did not change with the theme")
+            check(page.evaluate("localStorage.getItem('signpdf.theme')") == "dark",
+                  f"{label}: the theme choice was not saved")
+            sheet = page.evaluate("getComputedStyle(document.querySelector('.sheet')).backgroundColor")
+            check(sheet == "rgb(255, 255, 255)", f"{label}: the document page is not white in dark mode: {sheet}")
+            page.reload(wait_until="load")
+            page.wait_for_function("window.__signpdf")
+            check(page.get_attribute("html", "data-theme") == "dark", f"{label}: the theme was forgotten on reload")
+            page.click("#themeToggle")
+            page.wait_for_timeout(200)
+            check(page.get_attribute("html", "data-theme") == "light", f"{label}: the toggle does not go back to light")
+            check(page.evaluate("getComputedStyle(document.body).color") == ink_light,
+                  f"{label}: the text colour did not come back when the theme did")
+            page.evaluate("localStorage.removeItem('signpdf.theme')")
 
             watcher.quiet(label)
             print(f"{label}: ok")

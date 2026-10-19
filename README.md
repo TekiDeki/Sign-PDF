@@ -21,6 +21,8 @@ Live: <https://freehtml.dev/sign> · Source: <https://github.com/TekiDeki/Sign-P
 - **Download** a normal PDF with the signature drawn into the page itself, not
   added as a layer that can be moved or deleted afterwards.
 - **Undo** as much as you want, forty steps back.
+- **Dark theme**, remembered between visits, or the system one on the first visit.
+  The document page stays white on purpose: it has to look like the printed page.
 
 The signature itself is remembered in `localStorage`, so the second document of
 the day takes three seconds. The document is never stored: close the tab and it
@@ -56,12 +58,14 @@ down to the first sheet.
 ```bash
 python3 build.py                  # writes index.html, single file, deterministic
 node tests/logic_test.cjs                      # 64 checks: geometry, ink, real PDF work
-python3 tests/ui_test.py                       # 109 checks on Chromium
+python3 tests/ui_test.py                       # 133 checks on Chromium
 BROWSER=firefox python3 tests/ui_test.py       # the same on Firefox
 BROWSER=webkit  python3 tests/ui_test.py       # the same on WebKit, the Safari engine
 
 Every pass covers a desktop at 1280x900, a touch tablet at 820x1180 and a touch
-phone at 390x844. Every download is read back through pdf-lib and inspected:
+phone at 390x844. The theme is checked too: the toggle, the saved choice, the
+reload, and the fact that the document page stays white in dark mode.
+Every download is read back through pdf-lib and inspected:
 page count, and how many images are actually drawn on each page, so a signature
 that only looks placed on screen is caught.
 ```
@@ -91,6 +95,7 @@ The fixtures can be rebuilt with `node tests/make_fixtures.cjs`.
 | `index.html` | the built page, committed, served by GitHub Pages |
 | `sw.js` | offline shell |
 | `tests/fixtures/` | a three page contract, a one page slip, an invoice, an encrypted PDF, a corrupted one and two signatures |
+| `screenshots/` | desktop, phone, the signed page and the dark theme, from this build |
 
 ## Languages
 

@@ -67,7 +67,8 @@
     "errNoPlacements": "Put the signature on at least one page.",
     "errName": "Give the file a name.",
     "errExport": "The file could not be written. Try a smaller PDF.",
-    "footer": "A TekiDeki tool. Free, no account, no tracking."
+    "footer": "A TekiDeki tool. Free, no account, no tracking.",
+    "themeLabel": "Toggle dark theme"
   },
   "ro": {
     "docTitle": "Sign PDF - semnează un PDF în browser",
@@ -137,7 +138,8 @@
     "errNoPlacements": "Pune semnătura pe cel puțin o pagină.",
     "errName": "Dă un nume fișierului.",
     "errExport": "Fișierul nu a putut fi scris. Încearcă un PDF mai mic.",
-    "footer": "O unealtă TekiDeki. Gratuită, fără cont, fără urmărire."
+    "footer": "O unealtă TekiDeki. Gratuită, fără cont, fără urmărire.",
+    "themeLabel": "Comută tema întunecată"
   },
   "sr-latn": {
     "docTitle": "Sign PDF - potpiši PDF u pregledaču",
@@ -207,6 +209,7 @@
     "errNoPlacements": "Stavi potpis na bar jednu stranu.",
     "errName": "Daj fajlu naziv.",
     "errExport": "Fajl ne može da se napiše. Probaj manji PDF.",
-    "footer": "TekiDeki alat. Besplatan, bez naloga, bez praćenja."
+    "footer": "TekiDeki alat. Besplatan, bez naloga, bez praćenja.",
+    "themeLabel": "Uključi tamnu temu"
   }
 }

@@ -71,6 +71,10 @@
       node.setAttribute("placeholder", t(node.getAttribute("data-i18n-placeholder")));
     });
     el.langSelect.value = state.lang;
+    if (el.themeToggle) {
+      el.themeToggle.setAttribute("aria-label", t("themeLabel"));
+      el.themeToggle.title = t("themeLabel");
+    }
     document.querySelectorAll(".page-no").forEach(function (node, index) {
       node.textContent = t("pageLabel", { n: index + 1 });
     });
@@ -762,7 +766,7 @@
 
   function cacheElements() {
     [
-      "langSelect", "drop", "chooseBtn", "fileInput", "docBar", "docName", "docMeta", "replaceBtn",
+      "langSelect", "themeToggle", "drop", "chooseBtn", "fileInput", "docBar", "docName", "docMeta", "replaceBtn",
       "pagesEmpty", "pageList", "pagesCap", "tabDraw", "tabType", "tabUpload",
       "panelDraw", "panelType", "panelUpload", "drawCanvas", "inkSelect", "drawUndo", "drawClear",
       "drawUse", "typeInput", "typeFont", "typeUse", "uploadInput", "whiteToggle",
@@ -791,6 +795,15 @@
       state.lang = el.langSelect.value;
       savePrefs();
       applyLang();
+    });
+
+    el.themeToggle.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") !== "dark";
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      try { localStorage.setItem("signpdf.theme", dark ? "dark" : "light"); } catch (error) { /* private mode */ }
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", dark ? "#08161b" : "#f4efe4");
+      paintThemeButton();
     });
 
     el.chooseBtn.addEventListener("click", function (event) {
@@ -928,8 +941,17 @@
     }
   }
 
+  function paintThemeButton() {
+    var dark = document.documentElement.getAttribute("data-theme") === "dark";
+    el.themeToggle.textContent = dark ? "\u2600\uFE0F" : "\u{1F319}";
+    el.themeToggle.setAttribute("aria-pressed", dark ? "true" : "false");
+    if (LOCALES[state.lang]) el.themeToggle.setAttribute("aria-label", t("themeLabel"));
+    el.themeToggle.title = el.themeToggle.getAttribute("aria-label") || "Toggle dark theme";
+  }
+
   function init() {
     cacheElements();
+    paintThemeButton();
     state.lang = detectLang();
     loadPrefs();
     workerSetup();

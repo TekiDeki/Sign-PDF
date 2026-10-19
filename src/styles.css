@@ -16,6 +16,76 @@
   --radius: 18px;
   --shadow: 0 18px 40px rgba(10, 29, 35, 0.12);
   --shadow-soft: 0 6px 18px rgba(10, 29, 35, 0.08);
+  --glow-a: #fbf8f1;
+  --glow-b: #eef4f2;
+  --glow-1: rgba(251, 248, 241, 0);
+  --glow-2: rgba(238, 244, 242, 0);
+  --body-2: #2c3f44;
+  --body-3: #33474c;
+  --faint: #98a5a7;
+  --surface-2: #efe8da;
+  --surface-soft: rgba(255, 253, 248, 0.6);
+  --field-bg: #ffffff;
+  --sheet: #ffffff;
+  --pad-bg: #ffffff;
+  --pad-line: rgba(15, 102, 116, 0.06);
+  --checker-a: #f7f2e7;
+  --checker-b: #fffdf8;
+  --btn: #e9e1d1;
+  --btn-hover: #e0d6c1;
+  --on-primary: #ffffff;
+  --teal-hover: #0d5a66;
+  --ghost-hover: rgba(10, 29, 35, 0.04);
+  --chip-bg: rgba(15, 102, 116, 0.09);
+  --chip-border: rgba(15, 102, 116, 0.16);
+  --teal-wash: rgba(15, 102, 116, 0.06);
+  --drop-border: #c9bfa9;
+  --place-border: rgba(15, 102, 116, 0.5);
+  --place-bg: rgba(86, 178, 186, 0.06);
+}
+
+/* Dark theme. The PDF page itself stays white on purpose: it has to look like
+ * what will be printed, and inverting a document would be a lie. */
+[data-theme="dark"] {
+  --ink: #e9f1ef;
+  --deep: #050d10;
+  --teal: #5cbfc6;
+  --teal-soft: #8fd8dd;
+  --cream: #08161b;
+  --paper: #0d2026;
+  --amber: #e3a548;
+  --line: #1d3a41;
+  --muted: #95aaac;
+  --danger: #ff97a1;
+  --glow-a: #0d2129;
+  --glow-b: #0a1a21;
+  --glow-1: rgba(13, 33, 41, 0);
+  --glow-2: rgba(10, 26, 33, 0);
+  --body-2: #c9d8d6;
+  --body-3: #bed0ce;
+  --faint: #7d9497;
+  --surface-2: #123037;
+  --surface-soft: rgba(13, 32, 38, 0.72);
+  --field-bg: #0a1c22;
+  --sheet: #ffffff;
+  --pad-bg: #ffffff;
+  --pad-line: rgba(15, 102, 116, 0.12);
+  --checker-a: #12282e;
+  --checker-b: #0d2026;
+  --btn: #173a41;
+  --btn-hover: #1d474f;
+  --on-primary: #04232a;
+  --teal-hover: #6fcbd2;
+  --ghost-hover: rgba(255, 255, 255, 0.06);
+  --chip-bg: rgba(92, 191, 198, 0.12);
+  --chip-border: rgba(92, 191, 198, 0.26);
+  --teal-wash: rgba(92, 191, 198, 0.08);
+  --drop-border: #2c4c54;
+  --place-border: rgba(227, 165, 72, 0.65);
+  --place-bg: rgba(227, 165, 72, 0.08);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.38);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -25,8 +95,8 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 600px at 12% -8%, #fbf8f1 0%, rgba(251, 248, 241, 0) 60%),
-    radial-gradient(900px 500px at 100% 0%, #eef4f2 0%, rgba(238, 244, 242, 0) 55%),
+    radial-gradient(1200px 600px at 12% -8%, var(--glow-a) 0%, var(--glow-1) 60%),
+    radial-gradient(900px 500px at 100% 0%, var(--glow-b) 0%, var(--glow-2) 55%),
     var(--cream);
   color: var(--ink);
   font: 400 17px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -78,6 +148,31 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--muted);
 }
 
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-icon:hover { background: var(--ghost-hover); border-color: var(--teal-soft); }
+
 .lang select {
   border: 1px solid var(--line);
   background: var(--paper);
@@ -118,7 +213,7 @@ main {
 
 .lede {
   font-size: clamp(17px, 1.5vw, 20px);
-  color: #2c3f44;
+  color: var(--body-2);
   max-width: 66ch;
 }
 
@@ -136,9 +231,9 @@ main {
   font-weight: 600;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(15, 102, 116, 0.09);
+  background: var(--chip-bg);
   color: var(--teal);
-  border: 1px solid rgba(15, 102, 116, 0.16);
+  border: 1px solid var(--chip-border);
 }
 
 /* ------------------------------------------------------------- workspace */
@@ -162,9 +257,9 @@ main {
   text-align: center;
   min-height: 230px;
   padding: 28px 20px;
-  border: 2px dashed #c9bfa9;
+  border: 2px dashed var(--drop-border);
   border-radius: var(--radius);
-  background: rgba(255, 253, 248, 0.6);
+  background: var(--surface-soft);
   color: var(--muted);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.15s;
@@ -176,7 +271,7 @@ main {
 
 .drop:hover, .drop.is-over {
   border-color: var(--teal);
-  background: rgba(15, 102, 116, 0.06);
+  background: var(--teal-wash);
 }
 
 .drop.is-over { transform: scale(1.004); }
@@ -213,7 +308,7 @@ main {
 
 .sheet {
   position: relative;
-  background: #fff;
+  background: var(--sheet);
   border-radius: 10px;
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -233,9 +328,9 @@ main {
 
 .place {
   position: absolute;
-  border: 1.5px dashed rgba(15, 102, 116, 0.5);
+  border: 1.5px dashed var(--place-border);
   border-radius: 4px;
-  background: rgba(86, 178, 186, 0.06);
+  background: var(--place-bg);
   pointer-events: none;
 }
 
@@ -246,6 +341,14 @@ main {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* A drawn signature is dark ink on transparency, and black on a dark panel is
+ * invisible. The preview box gets the same white it will have on the page. */
+[data-theme="dark"] .sig-box img {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 2px 6px;
 }
 
 .place.is-selected {
@@ -276,7 +379,7 @@ main {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #98a5a7;
+  color: var(--faint);
   text-transform: uppercase;
   line-height: 1;
   pointer-events: none;
@@ -301,7 +404,7 @@ main {
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   padding: 4px;
-  background: #efe8da;
+  background: var(--surface-2);
   border-radius: 12px;
   margin-bottom: 16px;
 }
@@ -330,8 +433,8 @@ main {
   width: 100%;
   height: 170px;
   background:
-    linear-gradient(to bottom, rgba(15, 102, 116, 0.06) 0 1px, transparent 1px 100%),
-    #fff;
+    linear-gradient(to bottom, var(--pad-line) 0 1px, transparent 1px 100%),
+    var(--pad-bg);
   background-size: 100% 42px;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -355,7 +458,7 @@ main {
 .field select {
   width: 100%;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--field-bg);
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 16px;
@@ -371,7 +474,7 @@ main {
   align-items: flex-start;
   gap: 9px;
   font-size: 13px;
-  color: #33474c;
+  color: var(--body-3);
   margin: 8px 0;
 }
 
@@ -395,7 +498,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 12px;
   background:
-    repeating-conic-gradient(#f7f2e7 0% 25%, #fffdf8 0% 50%) 50% / 14px 14px;
+    repeating-conic-gradient(var(--checker-a) 0% 25%, var(--checker-b) 0% 50%) 50% / 14px 14px;
 }
 
 .sig-box img { max-width: 100%; max-height: 84px; display: block; }
@@ -427,7 +530,7 @@ main {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  background: #e9e1d1;
+  background: var(--btn);
   color: var(--ink);
   transition: transform 0.12s, background 0.15s, box-shadow 0.15s;
 }
@@ -437,11 +540,11 @@ main {
 
 .btn.primary {
   background: var(--teal);
-  color: #fff;
+  color: var(--on-primary);
   box-shadow: 0 10px 22px rgba(15, 102, 116, 0.24);
 }
 
-.btn.primary:hover { background: #0d5a66; }
+.btn.primary:hover { background: var(--teal-hover); }
 
 .btn.ghost {
   background: transparent;
@@ -449,7 +552,7 @@ main {
   color: var(--ink);
 }
 
-.btn.ghost:hover { background: rgba(10, 29, 35, 0.04); }
+.btn.ghost:hover { background: var(--ghost-hover); }
 
 .btn.danger { color: var(--danger); }
 
@@ -479,7 +582,7 @@ main {
   flex: 1;
   min-width: 0;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--field-bg);
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 16px;
@@ -498,7 +601,7 @@ main {
   color: var(--muted);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 253, 248, 0.5);
+  background: var(--surface-soft);
 }
 
 .empty[hidden] { display: none; }
@@ -529,14 +632,14 @@ main {
 }
 
 .notes article {
-  background: rgba(255, 253, 248, 0.72);
+  background: var(--surface-soft);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 20px 22px;
 }
 
 .notes h3 { font-size: 16px; margin-bottom: 8px; }
-.notes p, .limits { font-size: 14px; color: #33474c; }
+.notes p, .limits { font-size: 14px; color: var(--body-3); }
 .limits { margin: 0; padding-left: 18px; }
 .limits li { margin: 4px 0; }
 

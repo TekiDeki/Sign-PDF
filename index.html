@@ -29,6 +29,76 @@
   --radius: 18px;
   --shadow: 0 18px 40px rgba(10, 29, 35, 0.12);
   --shadow-soft: 0 6px 18px rgba(10, 29, 35, 0.08);
+  --glow-a: #fbf8f1;
+  --glow-b: #eef4f2;
+  --glow-1: rgba(251, 248, 241, 0);
+  --glow-2: rgba(238, 244, 242, 0);
+  --body-2: #2c3f44;
+  --body-3: #33474c;
+  --faint: #98a5a7;
+  --surface-2: #efe8da;
+  --surface-soft: rgba(255, 253, 248, 0.6);
+  --field-bg: #ffffff;
+  --sheet: #ffffff;
+  --pad-bg: #ffffff;
+  --pad-line: rgba(15, 102, 116, 0.06);
+  --checker-a: #f7f2e7;
+  --checker-b: #fffdf8;
+  --btn: #e9e1d1;
+  --btn-hover: #e0d6c1;
+  --on-primary: #ffffff;
+  --teal-hover: #0d5a66;
+  --ghost-hover: rgba(10, 29, 35, 0.04);
+  --chip-bg: rgba(15, 102, 116, 0.09);
+  --chip-border: rgba(15, 102, 116, 0.16);
+  --teal-wash: rgba(15, 102, 116, 0.06);
+  --drop-border: #c9bfa9;
+  --place-border: rgba(15, 102, 116, 0.5);
+  --place-bg: rgba(86, 178, 186, 0.06);
+}
+
+/* Dark theme. The PDF page itself stays white on purpose: it has to look like
+ * what will be printed, and inverting a document would be a lie. */
+[data-theme="dark"] {
+  --ink: #e9f1ef;
+  --deep: #050d10;
+  --teal: #5cbfc6;
+  --teal-soft: #8fd8dd;
+  --cream: #08161b;
+  --paper: #0d2026;
+  --amber: #e3a548;
+  --line: #1d3a41;
+  --muted: #95aaac;
+  --danger: #ff97a1;
+  --glow-a: #0d2129;
+  --glow-b: #0a1a21;
+  --glow-1: rgba(13, 33, 41, 0);
+  --glow-2: rgba(10, 26, 33, 0);
+  --body-2: #c9d8d6;
+  --body-3: #bed0ce;
+  --faint: #7d9497;
+  --surface-2: #123037;
+  --surface-soft: rgba(13, 32, 38, 0.72);
+  --field-bg: #0a1c22;
+  --sheet: #ffffff;
+  --pad-bg: #ffffff;
+  --pad-line: rgba(15, 102, 116, 0.12);
+  --checker-a: #12282e;
+  --checker-b: #0d2026;
+  --btn: #173a41;
+  --btn-hover: #1d474f;
+  --on-primary: #04232a;
+  --teal-hover: #6fcbd2;
+  --ghost-hover: rgba(255, 255, 255, 0.06);
+  --chip-bg: rgba(92, 191, 198, 0.12);
+  --chip-border: rgba(92, 191, 198, 0.26);
+  --teal-wash: rgba(92, 191, 198, 0.08);
+  --drop-border: #2c4c54;
+  --place-border: rgba(227, 165, 72, 0.65);
+  --place-bg: rgba(227, 165, 72, 0.08);
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.38);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -38,8 +108,8 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 600px at 12% -8%, #fbf8f1 0%, rgba(251, 248, 241, 0) 60%),
-    radial-gradient(900px 500px at 100% 0%, #eef4f2 0%, rgba(238, 244, 242, 0) 55%),
+    radial-gradient(1200px 600px at 12% -8%, var(--glow-a) 0%, var(--glow-1) 60%),
+    radial-gradient(900px 500px at 100% 0%, var(--glow-b) 0%, var(--glow-2) 55%),
     var(--cream);
   color: var(--ink);
   font: 400 17px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -91,6 +161,31 @@ button, input, select { font: inherit; color: inherit; }
   color: var(--muted);
 }
 
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-icon:hover { background: var(--ghost-hover); border-color: var(--teal-soft); }
+
 .lang select {
   border: 1px solid var(--line);
   background: var(--paper);
@@ -131,7 +226,7 @@ main {
 
 .lede {
   font-size: clamp(17px, 1.5vw, 20px);
-  color: #2c3f44;
+  color: var(--body-2);
   max-width: 66ch;
 }
 
@@ -149,9 +244,9 @@ main {
   font-weight: 600;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(15, 102, 116, 0.09);
+  background: var(--chip-bg);
   color: var(--teal);
-  border: 1px solid rgba(15, 102, 116, 0.16);
+  border: 1px solid var(--chip-border);
 }
 
 /* ------------------------------------------------------------- workspace */
@@ -175,9 +270,9 @@ main {
   text-align: center;
   min-height: 230px;
   padding: 28px 20px;
-  border: 2px dashed #c9bfa9;
+  border: 2px dashed var(--drop-border);
   border-radius: var(--radius);
-  background: rgba(255, 253, 248, 0.6);
+  background: var(--surface-soft);
   color: var(--muted);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.15s;
@@ -189,7 +284,7 @@ main {
 
 .drop:hover, .drop.is-over {
   border-color: var(--teal);
-  background: rgba(15, 102, 116, 0.06);
+  background: var(--teal-wash);
 }
 
 .drop.is-over { transform: scale(1.004); }
@@ -226,7 +321,7 @@ main {
 
 .sheet {
   position: relative;
-  background: #fff;
+  background: var(--sheet);
   border-radius: 10px;
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -246,9 +341,9 @@ main {
 
 .place {
   position: absolute;
-  border: 1.5px dashed rgba(15, 102, 116, 0.5);
+  border: 1.5px dashed var(--place-border);
   border-radius: 4px;
-  background: rgba(86, 178, 186, 0.06);
+  background: var(--place-bg);
   pointer-events: none;
 }
 
@@ -259,6 +354,14 @@ main {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* A drawn signature is dark ink on transparency, and black on a dark panel is
+ * invisible. The preview box gets the same white it will have on the page. */
+[data-theme="dark"] .sig-box img {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 2px 6px;
 }
 
 .place.is-selected {
@@ -289,7 +392,7 @@ main {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #98a5a7;
+  color: var(--faint);
   text-transform: uppercase;
   line-height: 1;
   pointer-events: none;
@@ -314,7 +417,7 @@ main {
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   padding: 4px;
-  background: #efe8da;
+  background: var(--surface-2);
   border-radius: 12px;
   margin-bottom: 16px;
 }
@@ -343,8 +446,8 @@ main {
   width: 100%;
   height: 170px;
   background:
-    linear-gradient(to bottom, rgba(15, 102, 116, 0.06) 0 1px, transparent 1px 100%),
-    #fff;
+    linear-gradient(to bottom, var(--pad-line) 0 1px, transparent 1px 100%),
+    var(--pad-bg);
   background-size: 100% 42px;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -368,7 +471,7 @@ main {
 .field select {
   width: 100%;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--field-bg);
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 16px;
@@ -384,7 +487,7 @@ main {
   align-items: flex-start;
   gap: 9px;
   font-size: 13px;
-  color: #33474c;
+  color: var(--body-3);
   margin: 8px 0;
 }
 
@@ -408,7 +511,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 12px;
   background:
-    repeating-conic-gradient(#f7f2e7 0% 25%, #fffdf8 0% 50%) 50% / 14px 14px;
+    repeating-conic-gradient(var(--checker-a) 0% 25%, var(--checker-b) 0% 50%) 50% / 14px 14px;
 }
 
 .sig-box img { max-width: 100%; max-height: 84px; display: block; }
@@ -440,7 +543,7 @@ main {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  background: #e9e1d1;
+  background: var(--btn);
   color: var(--ink);
   transition: transform 0.12s, background 0.15s, box-shadow 0.15s;
 }
@@ -450,11 +553,11 @@ main {
 
 .btn.primary {
   background: var(--teal);
-  color: #fff;
+  color: var(--on-primary);
   box-shadow: 0 10px 22px rgba(15, 102, 116, 0.24);
 }
 
-.btn.primary:hover { background: #0d5a66; }
+.btn.primary:hover { background: var(--teal-hover); }
 
 .btn.ghost {
   background: transparent;
@@ -462,7 +565,7 @@ main {
   color: var(--ink);
 }
 
-.btn.ghost:hover { background: rgba(10, 29, 35, 0.04); }
+.btn.ghost:hover { background: var(--ghost-hover); }
 
 .btn.danger { color: var(--danger); }
 
@@ -492,7 +595,7 @@ main {
   flex: 1;
   min-width: 0;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--field-bg);
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 16px;
@@ -511,7 +614,7 @@ main {
   color: var(--muted);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(255, 253, 248, 0.5);
+  background: var(--surface-soft);
 }
 
 .empty[hidden] { display: none; }
@@ -542,14 +645,14 @@ main {
 }
 
 .notes article {
-  background: rgba(255, 253, 248, 0.72);
+  background: var(--surface-soft);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 20px 22px;
 }
 
 .notes h3 { font-size: 16px; margin-bottom: 8px; }
-.notes p, .limits { font-size: 14px; color: #33474c; }
+.notes p, .limits { font-size: 14px; color: var(--body-3); }
 .limits { margin: 0; padding-left: 18px; }
 .limits li { margin: 4px 0; }
 
@@ -591,6 +694,22 @@ main {
   * { transition: none !important; animation: none !important; }
 }
 </style>
+<script>
+/* Applied before the first paint: the saved theme, or the system one. */
+(function () {
+  try {
+    var saved = localStorage.getItem("signpdf.theme");
+    var dark = saved === "dark" || saved === "light"
+      ? saved === "dark"
+      : !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", dark ? "#08161b" : "#f4efe4");
+  } catch (error) {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+})();
+</script>
 </head>
 <body>
 <header class="top">
@@ -603,14 +722,17 @@ main {
     </svg>
     <span class="brand-name">Sign PDF</span>
   </a>
-  <div class="lang">
-    <label for="langSelect" data-i18n="langLabel">Language</label>
-    <select id="langSelect" aria-label="Language">
-      <option value="en">English</option>
-      <option value="ro">Română</option>
-      <option value="sr-latn">Srpski</option>
-      <option value="sr-cyrl">Српски</option>
-    </select>
+  <div class="top-actions">
+    <div class="lang">
+      <label for="langSelect" data-i18n="langLabel">Language</label>
+      <select id="langSelect" aria-label="Language">
+        <option value="en">English</option>
+        <option value="ro">Română</option>
+        <option value="sr-latn">Srpski</option>
+        <option value="sr-cyrl">Српски</option>
+      </select>
+    </div>
+    <button type="button" id="themeToggle" class="btn-icon" aria-pressed="false" aria-label="Toggle dark theme" title="Toggle dark theme">🌙</button>
   </div>
 </header>
 
@@ -1061,10 +1183,10 @@ main {
 <script>
 /* Generated by build.py from src/i18n/locales.json. Do not edit. */
 window.TD_LOCALES = {
-  "en": {"choose": "Choose a PDF", "claim1": "No upload", "claim2": "No account", "claim3": "Works offline", "claim4": "Free", "clearAll": "Remove all", "dateBtn": "Add today's date", "deleteSelected": "Delete", "docPage": "1 page", "docPages": "{n} pages", "docTitle": "Sign PDF - sign a PDF in your browser", "done": "Done. The signed file is in your downloads.", "drawClear": "Clear", "drawHint": "Draw with the mouse, the trackpad or a finger.", "drawUndo": "Undo stroke", "dropHint": "or choose it from your device.", "dropTitle": "Drop a PDF here", "errBig": "That file is too large for the browser. The limit is {size}.", "errDrawEmpty": "Draw a signature first.", "errEncrypted": "This PDF is password protected. Remove the password first.", "errExport": "The file could not be written. Try a smaller PDF.", "errImage": "That picture could not be read.", "errInvalid": "That file is not a PDF this browser can read.", "errName": "Give the file a name.", "errNoDoc": "Open a PDF first.", "errNoPlacements": "Put the signature on at least one page.", "errTypeEmpty": "Write a name first.", "exportBtn": "Download the signed PDF", "fontScript": "Script", "fontSerif": "Serif", "footer": "A TekiDeki tool. Free, no account, no tracking.", "h1": "Sign the PDF without sending it anywhere.", "inkBlack": "Black", "inkBlue": "Blue", "inkLabel": "Ink", "inkRed": "Red", "langLabel": "Language", "lede": "Open the document, put your signature where it belongs, and download the file. The pages are read here, in this tab.", "limit1": "No sending documents to other people to sign.", "limit2": "No certificate based digital signature. This is a simple electronic signature, drawn into the page.", "limit3": "No editing of the text that is already in the PDF.", "limitsTitle": "What it does not do", "outLabel": "File name", "pageLabel": "Page {n}", "pagesCap": "Showing the first {n} pages. The signature goes on the pages you see.", "pagesEmpty": "Open a PDF and its pages appear here.", "panelTitle": "Your signature", "pendingDate": "Now click the page where the date should go.", "pendingSignature": "Now click the page where the signature should go.", "privacyBody": "The pages are read in this tab. There is no server, no upload and no account. The signature stays in this browser, and the document is gone when you close the tab.", "privacyTitle": "Nothing leaves this device", "replace": "Another PDF", "selectedHint": "Drag to move. Pull a corner to resize.", "sigEmpty": "No signature yet.", "sigReady": "Ready. Click the page where it should go.", "tabDraw": "Draw", "tabType": "Type", "tabUpload": "Upload", "tagline": "A signature, in the right place. Nothing leaves this tab.", "typeFont": "Style", "typeLabel": "Name", "typePlaceholder": "Your name", "undo": "Undo", "uploadHint": "PNG or JPG, on paper or on screen.", "uploadLabel": "Picture of your signature", "useSignature": "Use this signature", "whiteLabel": "Make the white background transparent", "working": "Working..."},
-  "ro": {"choose": "Alege un PDF", "claim1": "Fără upload", "claim2": "Fără cont", "claim3": "Merge offline", "claim4": "Gratuit", "clearAll": "Scoate tot", "dateBtn": "Adaugă data de azi", "deleteSelected": "Șterge", "docPage": "1 pagină", "docPages": "{n} pagini", "docTitle": "Sign PDF - semnează un PDF în browser", "done": "Gata. Fișierul semnat este în descărcări.", "drawClear": "Șterge", "drawHint": "Desenează cu mouse-ul, cu touchpad-ul sau cu degetul.", "drawUndo": "Anulează trăsătura", "dropHint": "sau alege-l din calculator.", "dropTitle": "Trage un PDF aici", "errBig": "Fișierul e prea mare pentru browser. Limita e {size}.", "errDrawEmpty": "Desenează întâi o semnătură.", "errEncrypted": "PDF-ul are parolă. Scoate parola întâi.", "errExport": "Fișierul nu a putut fi scris. Încearcă un PDF mai mic.", "errImage": "Poza nu a putut fi citită.", "errInvalid": "Fișierul nu e un PDF pe care browserul îl poate citi.", "errName": "Dă un nume fișierului.", "errNoDoc": "Deschide întâi un PDF.", "errNoPlacements": "Pune semnătura pe cel puțin o pagină.", "errTypeEmpty": "Scrie întâi un nume.", "exportBtn": "Descarcă PDF-ul semnat", "fontScript": "Manuscris", "fontSerif": "Serif", "footer": "O unealtă TekiDeki. Gratuită, fără cont, fără urmărire.", "h1": "Semnează PDF-ul fără să-l trimiți nicăieri.", "inkBlack": "Negru", "inkBlue": "Albastru", "inkLabel": "Cerneală", "inkRed": "Roșu", "langLabel": "Limbă", "lede": "Deschide documentul, pune semnătura unde trebuie și descarcă fișierul. Paginile sunt citite aici, în acest tab.", "limit1": "Nu trimite documente altor persoane spre semnare.", "limit2": "Nu face semnătură digitală cu certificat. Asta e semnătură electronică simplă, desenată în pagină.", "limit3": "Nu modifică textul care există deja în PDF.", "limitsTitle": "Ce nu face", "outLabel": "Numele fișierului", "pageLabel": "Pagina {n}", "pagesCap": "Sunt afișate primele {n} pagini. Semnătura se pune pe paginile pe care le vezi.", "pagesEmpty": "Deschide un PDF și paginile apar aici.", "panelTitle": "Semnătura ta", "pendingDate": "Acum apasă pe pagina unde trebuie să stea data.", "pendingSignature": "Acum apasă pe pagina unde trebuie să stea semnătura.", "privacyBody": "Paginile sunt citite în acest tab. Nu există server, upload sau cont. Semnătura rămâne în acest browser, iar documentul dispare când închizi tabul.", "privacyTitle": "Nimic nu pleacă din acest dispozitiv", "replace": "Alt PDF", "selectedHint": "Trage ca să muți. Trage de un colț ca să mărești.", "sigEmpty": "Încă nicio semnătură.", "sigReady": "Gata. Apasă pe pagina unde trebuie să stea.", "tabDraw": "Desenează", "tabType": "Scrie", "tabUpload": "Încarcă", "tagline": "O semnătură, la locul ei. Nimic nu pleacă din acest tab.", "typeFont": "Stil", "typeLabel": "Nume", "typePlaceholder": "Numele tău", "undo": "Anulează", "uploadHint": "PNG sau JPG, pe hârtie sau pe ecran.", "uploadLabel": "Poză cu semnătura", "useSignature": "Folosește semnătura", "whiteLabel": "Fă fundalul alb transparent", "working": "Se lucrează..."},
-  "sr-latn": {"choose": "Izaberi PDF", "claim1": "Bez otpremanja", "claim2": "Bez naloga", "claim3": "Radi oflajn", "claim4": "Besplatno", "clearAll": "Ukloni sve", "dateBtn": "Dodaj današnji datum", "deleteSelected": "Obriši", "docPage": "1 strana", "docPages": "{n} strana", "docTitle": "Sign PDF - potpiši PDF u pregledaču", "done": "Gotovo. Potpisan fajl je u preuzimanjima.", "drawClear": "Obriši", "drawHint": "Crtaj mišem, tačpedom ili prstom.", "drawUndo": "Poništi potez", "dropHint": "ili ga izaberi sa uređaja.", "dropTitle": "Prevuci PDF ovde", "errBig": "Fajl je prevelik za pregledač. Granica je {size}.", "errDrawEmpty": "Prvo nacrtaj potpis.", "errEncrypted": "PDF je zaštićen lozinkom. Prvo ukloni lozinku.", "errExport": "Fajl ne može da se napiše. Probaj manji PDF.", "errImage": "Ta slika ne može da se pročita.", "errInvalid": "To nije PDF koji ovaj pregledač može da pročita.", "errName": "Daj fajlu naziv.", "errNoDoc": "Prvo otvori PDF.", "errNoPlacements": "Stavi potpis na bar jednu stranu.", "errTypeEmpty": "Prvo upiši ime.", "exportBtn": "Preuzmi potpisan PDF", "fontScript": "Rukopis", "fontSerif": "Serif", "footer": "TekiDeki alat. Besplatan, bez naloga, bez praćenja.", "h1": "Potpiši PDF a da ga nigde ne pošalješ.", "inkBlack": "Crno", "inkBlue": "Plavo", "inkLabel": "Mastilo", "inkRed": "Crveno", "langLabel": "Jezik", "lede": "Otvori dokument, stavi potpis gde pripada i preuzmi fajl. Strane se čitaju ovde, u ovom tabu.", "limit1": "Ne šalje dokumente drugima na potpis.", "limit2": "Nema digitalni potpis sa sertifikatom. Ovo je prost elektronski potpis, nacrtan u stranu.", "limit3": "Ne menja tekst koji već postoji u PDF-u.", "limitsTitle": "Šta ne radi", "outLabel": "Naziv fajla", "pageLabel": "Strana {n}", "pagesCap": "Prikazano je prvih {n} strana. Potpis ide na strane koje vidiš.", "pagesEmpty": "Otvori PDF i njegove strane se pojavljuju ovde.", "panelTitle": "Tvoj potpis", "pendingDate": "Sada klikni na stranu gde datum treba da ide.", "pendingSignature": "Sada klikni na stranu gde potpis treba da ide.", "privacyBody": "Strane se čitaju u ovom tabu. Nema servera, otpremanja ni naloga. Potpis ostaje u ovom pregledaču, a dokument nestaje kad zatvoriš tab.", "privacyTitle": "Ništa ne napušta ovaj uređaj", "replace": "Drugi PDF", "selectedHint": "Prevuci da pomeriš. Povuci ugao da promeniš veličinu.", "sigEmpty": "Još nema potpisa.", "sigReady": "Spremno. Klikni na stranu gde treba da ide.", "tabDraw": "Nacrtaj", "tabType": "Ukucaj", "tabUpload": "Učitaj", "tagline": "Potpis, na pravom mestu. Ništa ne napušta ovaj tab.", "typeFont": "Stil", "typeLabel": "Ime", "typePlaceholder": "Tvoje ime", "undo": "Poništi", "uploadHint": "PNG ili JPG, sa papira ili sa ekrana.", "uploadLabel": "Slika potpisa", "useSignature": "Koristi ovaj potpis", "whiteLabel": "Učini belu pozadinu providnom", "working": "Radim..."},
-  "sr-cyrl": {"choose": "Изабери PDF", "claim1": "Без отпремања", "claim2": "Без налога", "claim3": "Ради офлајн", "claim4": "Бесплатно", "clearAll": "Уклони све", "dateBtn": "Додај данашњи датум", "deleteSelected": "Обриши", "docPage": "1 страна", "docPages": "{n} страна", "docTitle": "Sign PDF - потпиши PDF у прегледачу", "done": "Готово. Потписан фајл је у преузимањима.", "drawClear": "Обриши", "drawHint": "Цртај мишем, тачпедом или прстом.", "drawUndo": "Поништи потез", "dropHint": "или га изабери са уређаја.", "dropTitle": "Превуци PDF овде", "errBig": "Фајл је превелик за прегледач. Граница је {size}.", "errDrawEmpty": "Прво нацртај потпис.", "errEncrypted": "PDF је заштићен лозинком. Прво уклони лозинку.", "errExport": "Фајл не може да се напише. Пробај мањи PDF.", "errImage": "Та слика не може да се прочита.", "errInvalid": "То није PDF који овај прегледач може да прочита.", "errName": "Дај фајлу назив.", "errNoDoc": "Прво отвори PDF.", "errNoPlacements": "Стави потпис на бар једну страну.", "errTypeEmpty": "Прво упиши име.", "exportBtn": "Преузми потписан PDF", "fontScript": "Рукопис", "fontSerif": "Сериф", "footer": "TekiDeki алат. Бесплатан, без налога, без праћења.", "h1": "Потпиши PDF а да га нигде не пошаљеш.", "inkBlack": "Црно", "inkBlue": "Плаво", "inkLabel": "Мастило", "inkRed": "Црвено", "langLabel": "Језик", "lede": "Отвори документ, стави потпис где припада и преузми фајл. Стране се читају овде, у овом табу.", "limit1": "Не шаље документе другима на потпис.", "limit2": "Нема дигитални потпис са сертификатом. Ово је прост електронски потпис, нацртан у страну.", "limit3": "Не мења текст који већ постоји у PDF-у.", "limitsTitle": "Шта не ради", "outLabel": "Назив фајла", "pageLabel": "Страна {n}", "pagesCap": "Приказано је првих {n} страна. Потпис иде на стране које видиш.", "pagesEmpty": "Отвори PDF и његове стране се појављују овде.", "panelTitle": "Твој потпис", "pendingDate": "Сада кликни на страну где датум треба да иде.", "pendingSignature": "Сада кликни на страну где потпис треба да иде.", "privacyBody": "Стране се читају у овом табу. Нема сервера, отпремања ни налога. Потпис остаје у овом прегледачу, а документ нестаје кад затвориш таб.", "privacyTitle": "Ништа не напушта овај уређај", "replace": "Други PDF", "selectedHint": "Превуци да помериш. Повуци угао да промениш величину.", "sigEmpty": "Још нема потписа.", "sigReady": "Спремно. Кликни на страну где треба да иде.", "tabDraw": "Нацртај", "tabType": "Укуцај", "tabUpload": "Учитај", "tagline": "Потпис, на правом месту. Ништа не напушта овај таб.", "typeFont": "Стил", "typeLabel": "Име", "typePlaceholder": "Твоје име", "undo": "Поништи", "uploadHint": "PNG или JPG, са папира или са екрана.", "uploadLabel": "Слика потписа", "useSignature": "Користи овај потпис", "whiteLabel": "Учини белу позадину провидном", "working": "Радим..."}
+  "en": {"choose": "Choose a PDF", "claim1": "No upload", "claim2": "No account", "claim3": "Works offline", "claim4": "Free", "clearAll": "Remove all", "dateBtn": "Add today's date", "deleteSelected": "Delete", "docPage": "1 page", "docPages": "{n} pages", "docTitle": "Sign PDF - sign a PDF in your browser", "done": "Done. The signed file is in your downloads.", "drawClear": "Clear", "drawHint": "Draw with the mouse, the trackpad or a finger.", "drawUndo": "Undo stroke", "dropHint": "or choose it from your device.", "dropTitle": "Drop a PDF here", "errBig": "That file is too large for the browser. The limit is {size}.", "errDrawEmpty": "Draw a signature first.", "errEncrypted": "This PDF is password protected. Remove the password first.", "errExport": "The file could not be written. Try a smaller PDF.", "errImage": "That picture could not be read.", "errInvalid": "That file is not a PDF this browser can read.", "errName": "Give the file a name.", "errNoDoc": "Open a PDF first.", "errNoPlacements": "Put the signature on at least one page.", "errTypeEmpty": "Write a name first.", "exportBtn": "Download the signed PDF", "fontScript": "Script", "fontSerif": "Serif", "footer": "A TekiDeki tool. Free, no account, no tracking.", "h1": "Sign the PDF without sending it anywhere.", "inkBlack": "Black", "inkBlue": "Blue", "inkLabel": "Ink", "inkRed": "Red", "langLabel": "Language", "lede": "Open the document, put your signature where it belongs, and download the file. The pages are read here, in this tab.", "limit1": "No sending documents to other people to sign.", "limit2": "No certificate based digital signature. This is a simple electronic signature, drawn into the page.", "limit3": "No editing of the text that is already in the PDF.", "limitsTitle": "What it does not do", "outLabel": "File name", "pageLabel": "Page {n}", "pagesCap": "Showing the first {n} pages. The signature goes on the pages you see.", "pagesEmpty": "Open a PDF and its pages appear here.", "panelTitle": "Your signature", "pendingDate": "Now click the page where the date should go.", "pendingSignature": "Now click the page where the signature should go.", "privacyBody": "The pages are read in this tab. There is no server, no upload and no account. The signature stays in this browser, and the document is gone when you close the tab.", "privacyTitle": "Nothing leaves this device", "replace": "Another PDF", "selectedHint": "Drag to move. Pull a corner to resize.", "sigEmpty": "No signature yet.", "sigReady": "Ready. Click the page where it should go.", "tabDraw": "Draw", "tabType": "Type", "tabUpload": "Upload", "tagline": "A signature, in the right place. Nothing leaves this tab.", "themeLabel": "Toggle dark theme", "typeFont": "Style", "typeLabel": "Name", "typePlaceholder": "Your name", "undo": "Undo", "uploadHint": "PNG or JPG, on paper or on screen.", "uploadLabel": "Picture of your signature", "useSignature": "Use this signature", "whiteLabel": "Make the white background transparent", "working": "Working..."},
+  "ro": {"choose": "Alege un PDF", "claim1": "Fără upload", "claim2": "Fără cont", "claim3": "Merge offline", "claim4": "Gratuit", "clearAll": "Scoate tot", "dateBtn": "Adaugă data de azi", "deleteSelected": "Șterge", "docPage": "1 pagină", "docPages": "{n} pagini", "docTitle": "Sign PDF - semnează un PDF în browser", "done": "Gata. Fișierul semnat este în descărcări.", "drawClear": "Șterge", "drawHint": "Desenează cu mouse-ul, cu touchpad-ul sau cu degetul.", "drawUndo": "Anulează trăsătura", "dropHint": "sau alege-l din calculator.", "dropTitle": "Trage un PDF aici", "errBig": "Fișierul e prea mare pentru browser. Limita e {size}.", "errDrawEmpty": "Desenează întâi o semnătură.", "errEncrypted": "PDF-ul are parolă. Scoate parola întâi.", "errExport": "Fișierul nu a putut fi scris. Încearcă un PDF mai mic.", "errImage": "Poza nu a putut fi citită.", "errInvalid": "Fișierul nu e un PDF pe care browserul îl poate citi.", "errName": "Dă un nume fișierului.", "errNoDoc": "Deschide întâi un PDF.", "errNoPlacements": "Pune semnătura pe cel puțin o pagină.", "errTypeEmpty": "Scrie întâi un nume.", "exportBtn": "Descarcă PDF-ul semnat", "fontScript": "Manuscris", "fontSerif": "Serif", "footer": "O unealtă TekiDeki. Gratuită, fără cont, fără urmărire.", "h1": "Semnează PDF-ul fără să-l trimiți nicăieri.", "inkBlack": "Negru", "inkBlue": "Albastru", "inkLabel": "Cerneală", "inkRed": "Roșu", "langLabel": "Limbă", "lede": "Deschide documentul, pune semnătura unde trebuie și descarcă fișierul. Paginile sunt citite aici, în acest tab.", "limit1": "Nu trimite documente altor persoane spre semnare.", "limit2": "Nu face semnătură digitală cu certificat. Asta e semnătură electronică simplă, desenată în pagină.", "limit3": "Nu modifică textul care există deja în PDF.", "limitsTitle": "Ce nu face", "outLabel": "Numele fișierului", "pageLabel": "Pagina {n}", "pagesCap": "Sunt afișate primele {n} pagini. Semnătura se pune pe paginile pe care le vezi.", "pagesEmpty": "Deschide un PDF și paginile apar aici.", "panelTitle": "Semnătura ta", "pendingDate": "Acum apasă pe pagina unde trebuie să stea data.", "pendingSignature": "Acum apasă pe pagina unde trebuie să stea semnătura.", "privacyBody": "Paginile sunt citite în acest tab. Nu există server, upload sau cont. Semnătura rămâne în acest browser, iar documentul dispare când închizi tabul.", "privacyTitle": "Nimic nu pleacă din acest dispozitiv", "replace": "Alt PDF", "selectedHint": "Trage ca să muți. Trage de un colț ca să mărești.", "sigEmpty": "Încă nicio semnătură.", "sigReady": "Gata. Apasă pe pagina unde trebuie să stea.", "tabDraw": "Desenează", "tabType": "Scrie", "tabUpload": "Încarcă", "tagline": "O semnătură, la locul ei. Nimic nu pleacă din acest tab.", "themeLabel": "Comută tema întunecată", "typeFont": "Stil", "typeLabel": "Nume", "typePlaceholder": "Numele tău", "undo": "Anulează", "uploadHint": "PNG sau JPG, pe hârtie sau pe ecran.", "uploadLabel": "Poză cu semnătura", "useSignature": "Folosește semnătura", "whiteLabel": "Fă fundalul alb transparent", "working": "Se lucrează..."},
+  "sr-latn": {"choose": "Izaberi PDF", "claim1": "Bez otpremanja", "claim2": "Bez naloga", "claim3": "Radi oflajn", "claim4": "Besplatno", "clearAll": "Ukloni sve", "dateBtn": "Dodaj današnji datum", "deleteSelected": "Obriši", "docPage": "1 strana", "docPages": "{n} strana", "docTitle": "Sign PDF - potpiši PDF u pregledaču", "done": "Gotovo. Potpisan fajl je u preuzimanjima.", "drawClear": "Obriši", "drawHint": "Crtaj mišem, tačpedom ili prstom.", "drawUndo": "Poništi potez", "dropHint": "ili ga izaberi sa uređaja.", "dropTitle": "Prevuci PDF ovde", "errBig": "Fajl je prevelik za pregledač. Granica je {size}.", "errDrawEmpty": "Prvo nacrtaj potpis.", "errEncrypted": "PDF je zaštićen lozinkom. Prvo ukloni lozinku.", "errExport": "Fajl ne može da se napiše. Probaj manji PDF.", "errImage": "Ta slika ne može da se pročita.", "errInvalid": "To nije PDF koji ovaj pregledač može da pročita.", "errName": "Daj fajlu naziv.", "errNoDoc": "Prvo otvori PDF.", "errNoPlacements": "Stavi potpis na bar jednu stranu.", "errTypeEmpty": "Prvo upiši ime.", "exportBtn": "Preuzmi potpisan PDF", "fontScript": "Rukopis", "fontSerif": "Serif", "footer": "TekiDeki alat. Besplatan, bez naloga, bez praćenja.", "h1": "Potpiši PDF a da ga nigde ne pošalješ.", "inkBlack": "Crno", "inkBlue": "Plavo", "inkLabel": "Mastilo", "inkRed": "Crveno", "langLabel": "Jezik", "lede": "Otvori dokument, stavi potpis gde pripada i preuzmi fajl. Strane se čitaju ovde, u ovom tabu.", "limit1": "Ne šalje dokumente drugima na potpis.", "limit2": "Nema digitalni potpis sa sertifikatom. Ovo je prost elektronski potpis, nacrtan u stranu.", "limit3": "Ne menja tekst koji već postoji u PDF-u.", "limitsTitle": "Šta ne radi", "outLabel": "Naziv fajla", "pageLabel": "Strana {n}", "pagesCap": "Prikazano je prvih {n} strana. Potpis ide na strane koje vidiš.", "pagesEmpty": "Otvori PDF i njegove strane se pojavljuju ovde.", "panelTitle": "Tvoj potpis", "pendingDate": "Sada klikni na stranu gde datum treba da ide.", "pendingSignature": "Sada klikni na stranu gde potpis treba da ide.", "privacyBody": "Strane se čitaju u ovom tabu. Nema servera, otpremanja ni naloga. Potpis ostaje u ovom pregledaču, a dokument nestaje kad zatvoriš tab.", "privacyTitle": "Ništa ne napušta ovaj uređaj", "replace": "Drugi PDF", "selectedHint": "Prevuci da pomeriš. Povuci ugao da promeniš veličinu.", "sigEmpty": "Još nema potpisa.", "sigReady": "Spremno. Klikni na stranu gde treba da ide.", "tabDraw": "Nacrtaj", "tabType": "Ukucaj", "tabUpload": "Učitaj", "tagline": "Potpis, na pravom mestu. Ništa ne napušta ovaj tab.", "themeLabel": "Uključi tamnu temu", "typeFont": "Stil", "typeLabel": "Ime", "typePlaceholder": "Tvoje ime", "undo": "Poništi", "uploadHint": "PNG ili JPG, sa papira ili sa ekrana.", "uploadLabel": "Slika potpisa", "useSignature": "Koristi ovaj potpis", "whiteLabel": "Učini belu pozadinu providnom", "working": "Radim..."},
+  "sr-cyrl": {"choose": "Изабери PDF", "claim1": "Без отпремања", "claim2": "Без налога", "claim3": "Ради офлајн", "claim4": "Бесплатно", "clearAll": "Уклони све", "dateBtn": "Додај данашњи датум", "deleteSelected": "Обриши", "docPage": "1 страна", "docPages": "{n} страна", "docTitle": "Sign PDF - потпиши PDF у прегледачу", "done": "Готово. Потписан фајл је у преузимањима.", "drawClear": "Обриши", "drawHint": "Цртај мишем, тачпедом или прстом.", "drawUndo": "Поништи потез", "dropHint": "или га изабери са уређаја.", "dropTitle": "Превуци PDF овде", "errBig": "Фајл је превелик за прегледач. Граница је {size}.", "errDrawEmpty": "Прво нацртај потпис.", "errEncrypted": "PDF је заштићен лозинком. Прво уклони лозинку.", "errExport": "Фајл не може да се напише. Пробај мањи PDF.", "errImage": "Та слика не може да се прочита.", "errInvalid": "То није PDF који овај прегледач може да прочита.", "errName": "Дај фајлу назив.", "errNoDoc": "Прво отвори PDF.", "errNoPlacements": "Стави потпис на бар једну страну.", "errTypeEmpty": "Прво упиши име.", "exportBtn": "Преузми потписан PDF", "fontScript": "Рукопис", "fontSerif": "Сериф", "footer": "TekiDeki алат. Бесплатан, без налога, без праћења.", "h1": "Потпиши PDF а да га нигде не пошаљеш.", "inkBlack": "Црно", "inkBlue": "Плаво", "inkLabel": "Мастило", "inkRed": "Црвено", "langLabel": "Језик", "lede": "Отвори документ, стави потпис где припада и преузми фајл. Стране се читају овде, у овом табу.", "limit1": "Не шаље документе другима на потпис.", "limit2": "Нема дигитални потпис са сертификатом. Ово је прост електронски потпис, нацртан у страну.", "limit3": "Не мења текст који већ постоји у PDF-у.", "limitsTitle": "Шта не ради", "outLabel": "Назив фајла", "pageLabel": "Страна {n}", "pagesCap": "Приказано је првих {n} страна. Потпис иде на стране које видиш.", "pagesEmpty": "Отвори PDF и његове стране се појављују овде.", "panelTitle": "Твој потпис", "pendingDate": "Сада кликни на страну где датум треба да иде.", "pendingSignature": "Сада кликни на страну где потпис треба да иде.", "privacyBody": "Стране се читају у овом табу. Нема сервера, отпремања ни налога. Потпис остаје у овом прегледачу, а документ нестаје кад затвориш таб.", "privacyTitle": "Ништа не напушта овај уређај", "replace": "Други PDF", "selectedHint": "Превуци да помериш. Повуци угао да промениш величину.", "sigEmpty": "Још нема потписа.", "sigReady": "Спремно. Кликни на страну где треба да иде.", "tabDraw": "Нацртај", "tabType": "Укуцај", "tabUpload": "Учитај", "tagline": "Потпис, на правом месту. Ништа не напушта овај таб.", "themeLabel": "Укључи тамну тему", "typeFont": "Стил", "typeLabel": "Име", "typePlaceholder": "Твоје име", "undo": "Поништи", "uploadHint": "PNG или JPG, са папира или са екрана.", "uploadLabel": "Слика потписа", "useSignature": "Користи овај потпис", "whiteLabel": "Учини белу позадину провидном", "working": "Радим..."}
 };
 </script>
 <script>
@@ -1141,6 +1263,10 @@ window.TD_LOCALES = {
       node.setAttribute("placeholder", t(node.getAttribute("data-i18n-placeholder")));
     });
     el.langSelect.value = state.lang;
+    if (el.themeToggle) {
+      el.themeToggle.setAttribute("aria-label", t("themeLabel"));
+      el.themeToggle.title = t("themeLabel");
+    }
     document.querySelectorAll(".page-no").forEach(function (node, index) {
       node.textContent = t("pageLabel", { n: index + 1 });
     });
@@ -1832,7 +1958,7 @@ window.TD_LOCALES = {
 
   function cacheElements() {
     [
-      "langSelect", "drop", "chooseBtn", "fileInput", "docBar", "docName", "docMeta", "replaceBtn",
+      "langSelect", "themeToggle", "drop", "chooseBtn", "fileInput", "docBar", "docName", "docMeta", "replaceBtn",
       "pagesEmpty", "pageList", "pagesCap", "tabDraw", "tabType", "tabUpload",
       "panelDraw", "panelType", "panelUpload", "drawCanvas", "inkSelect", "drawUndo", "drawClear",
       "drawUse", "typeInput", "typeFont", "typeUse", "uploadInput", "whiteToggle",
@@ -1861,6 +1987,15 @@ window.TD_LOCALES = {
       state.lang = el.langSelect.value;
       savePrefs();
       applyLang();
+    });
+
+    el.themeToggle.addEventListener("click", function () {
+      var dark = document.documentElement.getAttribute("data-theme") !== "dark";
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      try { localStorage.setItem("signpdf.theme", dark ? "dark" : "light"); } catch (error) { /* private mode */ }
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", dark ? "#08161b" : "#f4efe4");
+      paintThemeButton();
     });
 
     el.chooseBtn.addEventListener("click", function (event) {
@@ -1998,8 +2133,17 @@ window.TD_LOCALES = {
     }
   }
 
+  function paintThemeButton() {
+    var dark = document.documentElement.getAttribute("data-theme") === "dark";
+    el.themeToggle.textContent = dark ? "\u2600\uFE0F" : "\u{1F319}";
+    el.themeToggle.setAttribute("aria-pressed", dark ? "true" : "false");
+    if (LOCALES[state.lang]) el.themeToggle.setAttribute("aria-label", t("themeLabel"));
+    el.themeToggle.title = el.themeToggle.getAttribute("aria-label") || "Toggle dark theme";
+  }
+
   function init() {
     cacheElements();
+    paintThemeButton();
     state.lang = detectLang();
     loadPrefs();
     workerSetup();
