@@ -6,6 +6,8 @@ has loaded.
 
 Live: <https://freehtml.dev/sign> · Source: <https://github.com/TekiDeki/Sign-PDF>
 
+![Sign PDF on a desktop](screenshots/desktop.png)
+
 ## What it does
 
 - **Open** a PDF by dropping it on the page or choosing it from the device.
