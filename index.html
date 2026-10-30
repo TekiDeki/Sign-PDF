@@ -2190,6 +2190,15 @@ window.TD_LOCALES = {
   }
 })();
 </script>
+<script>
+/* Offline shell: fara inregistrarea asta, sw.js nu se instaleaza niciodata si promisiunea
+   "works offline" de pe freehtml.dev nu ar fi adevarata. */
+if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () { /* offline-ul e un bonus */ });
+  });
+}
+</script>
 <!-- Sign PDF 1 - single file build -->
 </body>
 </html>

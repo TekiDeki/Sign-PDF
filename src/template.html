@@ -6,6 +6,7 @@
 <!-- CSP prin meta: GitHub Pages nu permite antete HTTP. Fara frame-ancestors/form-action, pe care meta nu le accepta. -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title data-i18n="docTitle">Sign PDF - sign a PDF in your browser</title>
+<link rel="canonical" href="https://tekideki.github.io/Sign-PDF/">
 <meta name="description" content="Put your signature on a PDF in the browser. Nothing is uploaded, no account, works offline.">
 <meta name="theme-color" content="#0a1d23">
 <link rel="manifest" href="manifest.json">
@@ -210,5 +211,14 @@
 <script src="engine.js"></script>
 <script src="i18n/locales.js"></script>
 <script src="app.js"></script>
+<script>
+/* Offline shell: fara inregistrarea asta, sw.js nu se instaleaza niciodata si promisiunea
+   "works offline" de pe freehtml.dev nu ar fi adevarata. */
+if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () { /* offline-ul e un bonus */ });
+  });
+}
+</script>
 </body>
 </html>
