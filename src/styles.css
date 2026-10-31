@@ -680,3 +680,10 @@ main {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+
+
+  /* regula casei: tinte de atingere pe mobil */
+  @media (pointer: coarse), (max-width: 700px) {
+    a:not(:where(p, li, figcaption) a) { min-height: 34px; display: inline-flex; align-items: center; }
+  }
