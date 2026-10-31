@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sign-PDF - scris 31.10.2026.
+     O singura pagina: unealta e un fisier, tot continutul inline. Adresa are slash la final,
+     pentru ca GitHub Pages raspunde 301 de la /Sign-PDF la /Sign-PDF/, iar un sitemap care trimite
+     la un redirect pierde din semnal. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://tekideki.github.io/Sign-PDF/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
