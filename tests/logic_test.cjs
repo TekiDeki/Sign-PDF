@@ -131,6 +131,33 @@ const decoded = E.dataUrlBytes('data:image/png;base64,' + Buffer.from([1, 2, 3, 
 eq(decoded.length, 4, 'a data url is decoded');
 eq(decoded[3], 250, 'a byte above 127 survives the decode');
 
+/* -------------------------------------------------- rotated page mapping */
+
+const spin = { x: 0.1, y: 0.2, w: 0.3, h: 0.1 };
+const normal = E.drawBox(spin, 595, 842, 0);
+close(normal.x, 59.5, 1e-9, 'unrotated x stays unchanged');
+close(normal.y, 589.4, 1e-9, 'unrotated y stays unchanged');
+close(normal.width, 178.5, 1e-9, 'unrotated width stays unchanged');
+close(normal.height, 84.2, 1e-9, 'unrotated height stays unchanged');
+eq(normal.rotation, 0, 'unrotated page needs no image rotation');
+
+const quarter = E.drawBox(spin, 595, 842, 90);
+close(quarter.x, 178.5, 1e-9, '90 degree x includes the displayed top and height');
+close(quarter.y, 84.2, 1e-9, '90 degree y is the displayed left');
+close(quarter.width, 252.6, 1e-9, '90 degree width uses displayed page width');
+close(quarter.height, 59.5, 1e-9, '90 degree height uses displayed page height');
+eq(quarter.rotation, 90, '90 degree image rotation cancels page rotation');
+
+const half = E.drawBox(spin, 595, 842, 180);
+close(half.x, 535.5, 1e-9, '180 degree x');
+close(half.y, 252.6, 1e-9, '180 degree y');
+eq(half.rotation, 180, '180 degree image rotation');
+
+const threeQuarters = E.drawBox(spin, 595, 842, 270);
+close(threeQuarters.x, 416.5, 1e-9, '270 degree x');
+close(threeQuarters.y, 757.8, 1e-9, '270 degree y');
+eq(threeQuarters.rotation, 270, '270 degree image rotation');
+
 /* ------------------------------------------------------------- stamping */
 
 function imageRefs(doc, page) {

@@ -535,6 +535,8 @@ main {
   transition: transform 0.12s, background 0.15s, box-shadow 0.15s;
 }
 
+.doc-bar[hidden], #deleteBtn[hidden] { display: none !important; }
+
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 

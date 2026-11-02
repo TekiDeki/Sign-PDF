@@ -177,6 +177,43 @@
     return new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
   }
 
+  /* Convert the on-screen box to the page's unrotated PDF coordinates. The
+   * image is rotated back inside that box, so a rotated page shows it upright. */
+  function drawBox(item, pageWidth, pageHeight, rotation) {
+    var nx = clamp(item.x, 0, 1);
+    var ny = clamp(item.y, 0, 1);
+    var nw = clamp(item.w, 0.001, 1);
+    var nh = clamp(item.h, 0.001, 1);
+    var angle = ((rotation || 0) % 360 + 360) % 360;
+    if ([0, 90, 180, 270].indexOf(angle) < 0) angle = 0;
+    if (angle === 0) {
+      return {
+        x: nx * pageWidth,
+        y: pageHeight - (ny + nh) * pageHeight,
+        width: nw * pageWidth,
+        height: nh * pageHeight,
+        rotation: 0
+      };
+    }
+    var swapped = angle === 90 || angle === 270;
+    var displayWidth = swapped ? pageHeight : pageWidth;
+    var displayHeight = swapped ? pageWidth : pageHeight;
+    var left = nx * displayWidth;
+    var top = ny * displayHeight;
+    var width = nw * displayWidth;
+    var height = nh * displayHeight;
+    if (angle === 90) {
+      return { x: top + height, y: left, width: width, height: height, rotation: angle };
+    }
+    if (angle === 180) {
+      return { x: pageWidth - left, y: top + height, width: width, height: height, rotation: angle };
+    }
+    return {
+      x: pageWidth - top - height, y: pageHeight - left,
+      width: width, height: height, rotation: angle
+    };
+  }
+
   /* Write every placement into the pages and hand back the finished file.
    * The signature is drawn into the content stream, so it is part of the page,
    * not an annotation that can be moved or deleted afterwards. */
@@ -196,11 +233,11 @@
         embedded[key] = await doc.embedPng(bytes);
       }
       var size = page.getSize();
-      var width = clamp(item.w, 0.001, 1) * size.width;
-      var height = clamp(item.h, 0.001, 1) * size.height;
-      var x = clamp(item.x, 0, 1) * size.width;
-      var y = size.height - (clamp(item.y, 0, 1) + clamp(item.h, 0.001, 1)) * size.height;
-      page.drawImage(embedded[key], { x: x, y: y, width: width, height: height });
+      var rotation = page.getRotation ? page.getRotation().angle : 0;
+      var box = drawBox(item, size.width, size.height, rotation);
+      var draw = { x: box.x, y: box.y, width: box.width, height: box.height };
+      if (box.rotation) draw.rotate = PDFLib.degrees(box.rotation);
+      page.drawImage(embedded[key], draw);
     }
     if (settings.title) {
       doc.setTitle(String(settings.title));
@@ -224,6 +261,7 @@
     handleAt: handleAt,
     inkBounds: inkBounds,
     dataUrlBytes: dataUrlBytes,
+    drawBox: drawBox,
     stampPdf: stampPdf
   };
 });

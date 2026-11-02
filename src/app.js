@@ -235,7 +235,9 @@
     state.placements = [];
     state.history = [];
     state.selected = null;
-    state.pending = null;
+    state.pending = state.signature ? {
+      url: state.signature.url, aspect: state.signature.aspect, key: "sig" + (++uid), kind: "signature"
+    } : null;
     state.pages = [];
     state.outName = E.safeName(file.name, "signed");
     el.outName.value = state.outName;
@@ -667,7 +669,7 @@
     var canvas = document.createElement("canvas");
     canvas.width = Math.max(1, Math.round(image.width * scale));
     canvas.height = Math.max(1, Math.round(image.height * scale));
-    var context = canvas.getContext("2d");
+    var context = canvas.getContext("2d", { willReadFrequently: true });
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     if (el.whiteToggle.checked) {

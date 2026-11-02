@@ -175,6 +175,8 @@ def run(pw, label: str, options: dict):
             # 1. The page loads clean and bilingual headings are in place.
             check(page.locator("h1").inner_text().strip() != "", f"{label}: no heading")
             check(page.evaluate("document.documentElement.lang") == "en", f"{label}: wrong default language")
+            check(not page.locator("#docBar").is_visible(), f"{label}: the empty document bar is visible")
+            check(not page.locator("#deleteBtn").is_visible(), f"{label}: Delete is visible without a selection")
 
             # 2. Drop a three page contract.
             upload(page, "contract.pdf")
@@ -191,6 +193,7 @@ def run(pw, label: str, options: dict):
             check(0.6 < placed["y"] < 0.9, f"{label}: the signature y is off: {placed['y']}")
             check(page.locator(".place.is-selected").count() == 1, f"{label}: the new signature is not selected")
             check(page.locator(".place .handle").count() == 4, f"{label}: the corner handles are missing")
+            check(page.locator("#deleteBtn").is_visible(), f"{label}: Delete does not appear for the selected signature")
 
             # 4. Drag it, then resize it from a corner.
             overlay_box = box_of(page, '.overlay[data-page="2"]')
@@ -319,6 +322,51 @@ def run(pw, label: str, options: dict):
             check(page.evaluate("getComputedStyle(document.body).color") == ink_light,
                   f"{label}: the text colour did not come back when the theme did")
             page.evaluate("localStorage.removeItem('signpdf.theme')")
+
+            # 15. A saved signature remains usable when a rotated PDF opens.
+            # The exported page is rendered again and the ink itself is measured.
+            page.evaluate("""async () => {
+                const doc = await PDFLib.PDFDocument.create();
+                const sheet = doc.addPage([200, 300]);
+                sheet.setRotation(PDFLib.degrees(90));
+                const bytes = await doc.save();
+                const transfer = new DataTransfer();
+                transfer.items.add(new File([bytes], 'rotated.pdf', {type: 'application/pdf'}));
+                const input = document.querySelector('#fileInput');
+                input.files = transfer.files;
+                input.dispatchEvent(new Event('change', {bubbles: true}));
+            }""")
+            page.wait_for_function("document.querySelectorAll('#pageList .page').length === 1", timeout=20000)
+            page.wait_for_function("document.querySelector('#docMeta').textContent.trim().length > 0", timeout=20000)
+            check(state(page)["pending"], f"{label}: the saved signature was not armed when the PDF opened")
+            place_signature(page, 0, 0.25, 0.25)
+            rotated_target = OUT / f"rotated-{label}.pdf"
+            rotated_summary = export_and_read(page, rotated_target)
+            check(rotated_summary["pages"] == 1, f"{label}: the rotated export lost its page")
+            check(rotated_summary["images"][0]["images"] >= 1, f"{label}: the rotated export has no image")
+            page.set_input_files("#fileInput", str(rotated_target))
+            page.wait_for_function("document.querySelectorAll('#pageList .page').length === 1", timeout=20000)
+            page.wait_for_function("document.querySelector('#docMeta').textContent.trim().length > 0", timeout=20000)
+            page.wait_for_timeout(450)
+            ink = page.evaluate("""() => {
+                const c = document.querySelector('.page canvas');
+                const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+                let minX=c.width, minY=c.height, maxX=-1, maxY=-1, count=0;
+                for (let y=0; y<c.height; y++) for (let x=0; x<c.width; x++) {
+                    const i=(y*c.width+x)*4;
+                    if (d[i+3]>200 && d[i]<100 && d[i+1]<100 && d[i+2]<100) {
+                        minX=Math.min(minX,x); minY=Math.min(minY,y);
+                        maxX=Math.max(maxX,x); maxY=Math.max(maxY,y); count++;
+                    }
+                }
+                return {count, cx:maxX<0?-1:(minX+maxX+1)/(2*c.width),
+                    cy:maxY<0?-1:(minY+maxY+1)/(2*c.height),
+                    width:maxX-minX+1, height:maxY-minY+1};
+            }""")
+            check(ink["count"] > 0, f"{label}: no ink was found in the rendered rotated export")
+            check(abs(ink["cx"] - 0.25) <= 0.03, f"{label}: rotated ink x is wrong: {ink}")
+            check(abs(ink["cy"] - 0.25) <= 0.03, f"{label}: rotated ink y is wrong: {ink}")
+            check(ink["width"] > ink["height"], f"{label}: the signature is not upright on the rotated page: {ink}")
 
             watcher.quiet(label)
             print(f"{label}: ok")

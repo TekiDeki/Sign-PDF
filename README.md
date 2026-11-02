@@ -59,8 +59,8 @@ down to the first sheet.
 
 ```bash
 python3 build.py                  # writes index.html, single file, deterministic
-node tests/logic_test.cjs                      # 64 checks: geometry, ink, real PDF work
-python3 tests/ui_test.py                       # 133 checks on Chromium
+node tests/logic_test.cjs                      # 80 checks: geometry, ink, real PDF work
+python3 tests/ui_test.py                       # 172 checks on Chromium
 BROWSER=firefox python3 tests/ui_test.py       # the same on Firefox
 BROWSER=webkit  python3 tests/ui_test.py       # the same on WebKit, the Safari engine
 
